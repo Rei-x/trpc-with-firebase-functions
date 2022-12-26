@@ -1,20 +1,26 @@
 name: Firebase function deploy
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Install npm packages
-      run: |
-        cd src/server
-        npm install
-    - name:  Deploy to Firebase
-      uses: w9jds/firebase-action@master
-      with:
+      - uses: actions/checkout@v2
+      - name: mario
+        uses: technote-space/get-diff-action@v6
+        with:
+          PATTERNS: src/server/**
+      - name: Install npm packages
+        run: |
+          cd src/server
+          npm install
+        if: env.GIT_DIFF
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
           args: deploy --only functions
-      env:
+        env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        if: env.GIT_DIFF
