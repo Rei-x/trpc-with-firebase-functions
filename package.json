@@ -3,35 +3,10 @@
   "version": "10.7.0",
   "private": true,
   "scripts": {
-    "migrate-sqlite": "prisma migrate dev --name init --schema=./prisma/_sqlite/schema.prisma",
-    "migrate-postgres": "prisma migrate dev",
-    "generate-sqlite": "prisma generate --schema=./prisma/_sqlite/schema.prisma",
-    "generate-postgres": "prisma generate",
-    "prisma-studio-sqlite": "prisma studio --schema=./prisma/_sqlite/schema.prisma",
-    "prisma-studio-postgres": "prisma studio",
-    "db-seed": "prisma db seed",
-    "db-reset": "prisma migrate reset",
-    "dx:next": "run-s migrate-sqlite generate-sqlite db-seed && next dev",
-    "dx:prisma-studio": "pnpm prisma-studio-sqlite",
-    "dx": "run-p dx:* --print-label",
-    "dev": "pnpm dx:next",
-    "build-sqlite": "run-s generate-sqlite migrate-sqlite && next build",
-    "build-postgres": "run-s generate-postgres migrate && next build",
-    "build": "pnpm build-postgres",
-    "start": "next start",
-    "lint": "eslint src",
-    "lint-fix": "pnpm lint --fix",
-    "migrate-dev": "prisma migrate dev",
-    "migrate": "prisma migrate deploy",
-    "test": "run-s test:*",
-    "test:unit": "vitest run",
-    "test:e2e": "playwright test",
-    "test-dev": "start-server-and-test 'next dev' http://127.0.0.1:3000 test",
-    "test-start": "start-server-and-test start http://127.0.0.1:3000 test",
-    "postinstall": "prisma generate"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "dev-all": "npm-run-all -l --parallel dev:*",
+    "dev": "next dev",
+    "dev:functions": "cd src/server && npm run dev",
+    "postinstall": "cd src/server && npm install"
   },
   "prettier": {
     "printWidth": 80,
@@ -39,13 +14,17 @@
     "singleQuote": true
   },
   "dependencies": {
+    "@h4ad/serverless-adapter": "^2.15.0",
     "@prisma/client": "^4.7.1",
-    "@tanstack/react-query": "^4.3.8",
+    "@tanstack/react-query": "^4.20.4",
     "@trpc/client": "^10.7.0",
     "@trpc/next": "^10.7.0",
     "@trpc/react-query": "^10.7.0",
     "@trpc/server": "^10.7.0",
     "clsx": "^1.1.1",
+    "firebase": "^9.15.0",
+    "firebase-admin": "^11.4.1",
+    "firebase-functions": "^4.1.1",
     "next": "^13.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -53,7 +32,10 @@
     "zod": "^3.0.0"
   },
   "devDependencies": {
+    "@firebase/app-types": "^0.9.0",
     "@playwright/test": "^1.26.1",
+    "@types/body-parser": "^1.19.2",
+    "@types/cors": "^2.8.13",
     "@types/node": "^18.7.20",
     "@types/react": "^18.0.9",
     "@typescript-eslint/eslint-plugin": "^5.47.0",
@@ -75,5 +57,8 @@
   },
   "publishConfig": {
     "access": "restricted"
+  },
+  "volta": {
+    "node": "16.19.0"
   }
 }
