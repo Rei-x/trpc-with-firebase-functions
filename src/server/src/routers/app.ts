@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { post } from '../models/question';
 
 export const appRouter = router({
-  healthcheck: publicProcedure.query(() => 'yay!'),
+  healthcheck: publicProcedure.query(() => 'yay it works!'),
   getQuestion: publicProcedure
     .output(
       z.object({
