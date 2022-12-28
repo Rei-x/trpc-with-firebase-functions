@@ -7,7 +7,7 @@ import SuperJSON from 'superjson';
 function getBaseUrl() {
   return (
     process.env.NEXT_PUBLIC_API_URL ??
-    'http://localhost:5001/test-quiks/us-central1'
+    'https://5001-reix-trpcwithfirebase-frozny7jxrc.ws-eu80.gitpod.io/test-quiks/us-central1'
   );
 }
 

@@ -2,8 +2,8 @@
   "name": "functions",
   "scripts": {
     "lint": "echo cool",
-    "build": "rm -rf ./lib && tsc",
-    "dev:watch": "tsc --watch",
+    "build": "tsup",
+    "dev:watch": "tsup --watch",
     "dev": "firebase emulators:exec --export-on-exit=./emulator_data --import=./emulator_data 'npm run dev:watch'",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
@@ -11,27 +11,30 @@
   "engines": {
     "node": "16"
   },
-  "main": "lib/index.js",
+  "files": [
+    "dist/index.js"
+  ],
+  "main": "dist/index.js",
   "dependencies": {
-    "@h4ad/serverless-adapter": "^2.15.0",
-    "@trpc/server": "^10.7.0",
-    "body-parser": "^1.20.1",
     "firebase-admin": "^10.0.2",
-    "firebase-functions": "^4.1.1",
-    "http-errors": "^2.0.0",
-    "superjson": "^1.12.1",
-    "zod": "^3.20.2"
+    "firebase-functions": "^4.1.1"
   },
   "devDependencies": {
+    "@trpc/server": "^10.7.0",
     "@types/body-parser": "^1.19.2",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
+    "body-parser": "^1.20.1",
     "eslint": "^8.9.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.25.4",
     "firebase-functions-test": "^0.2.0",
+    "http-errors": "^2.0.0",
     "npm-run-all": "^4.1.5",
-    "typescript": "^4.9.4"
+    "superjson": "^1.12.1",
+    "tsup": "^6.5.0",
+    "typescript": "^4.9.4",
+    "zod": "^3.20.2"
   },
   "private": true,
   "volta": {

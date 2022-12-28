@@ -1,19 +1,31 @@
-import { TrpcFramework } from '@h4ad/serverless-adapter/lib/frameworks/trpc';
-import { ServerlessAdapter } from '@h4ad/serverless-adapter';
-import { CorsFramework } from '@h4ad/serverless-adapter/lib/frameworks/cors';
-import { JsonBodyParserFramework } from '@h4ad/serverless-adapter/lib/frameworks/body-parser';
+import { onRequest, Request } from 'firebase-functions/v2/https';
+import { nodeHTTPRequestHandler } from '@trpc/server/adapters/node-http';
 import { appRouter } from './routers/app';
-import { DummyResolver } from '@h4ad/serverless-adapter/lib/resolvers/dummy';
-import { HttpFirebaseHandler } from '@h4ad/serverless-adapter/lib/handlers/firebase';
-import { DummyAdapter } from '@h4ad/serverless-adapter/lib/adapters/dummy';
 
-const framework = new TrpcFramework();
-const corsFramework = new CorsFramework(framework);
-const jsonFramework = new JsonBodyParserFramework(corsFramework);
+const getSafleUrl = (req: Request) => {
+  let url = req.url;
 
-export const trpc = ServerlessAdapter.new(appRouter)
-  .setHandler(new HttpFirebaseHandler())
-  .setResolver(new DummyResolver())
-  .setFramework(jsonFramework)
-  .addAdapter(new DummyAdapter())
-  .build();
+  if (url.startsWith('/')) url = url.slice(1);
+
+  if (url.includes('?')) url = url.split('?')[0];
+
+  return url;
+};
+
+export const trpc = onRequest(
+  {
+    cors: true,
+    minInstances: 0,
+    concurrency: 400,
+  },
+  (req, res) => {
+    const url = getSafleUrl(req);
+
+    nodeHTTPRequestHandler({
+      req,
+      res,
+      path: url,
+      router: appRouter,
+    });
+  },
+);
