@@ -7,7 +7,7 @@ const getSafleUrl = (req: Request) => {
 
   if (url.startsWith('/')) url = url.slice(1);
 
-  if (url.includes('?')) url = url.split('?')[0];
+  if (url.includes('?')) url = url.split('?')[0] as string;
 
   return url;
 };
