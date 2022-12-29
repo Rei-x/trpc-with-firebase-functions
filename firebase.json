@@ -6,7 +6,7 @@
   "hosting": {
     "rewrites": [
       {
-        "source": "/trpc",
+        "source": "/trpc/**",
         "function": "trpc"
       }
     ]

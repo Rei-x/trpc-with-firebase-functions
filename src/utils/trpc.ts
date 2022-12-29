@@ -5,10 +5,7 @@ import type { AppRouter } from '~/server/src/routers/app';
 import SuperJSON from 'superjson';
 
 function getBaseUrl() {
-  return (
-    process.env.NEXT_PUBLIC_API_URL ??
-    'https://5001-reix-trpcwithfirebase-frozny7jxrc.ws-eu80.gitpod.io/test-quiks/us-central1'
-  );
+  return process.env.NEXT_PUBLIC_API_URL ?? 'localhost:5000';
 }
 
 export const trpc = createTRPCNext<AppRouter>({
