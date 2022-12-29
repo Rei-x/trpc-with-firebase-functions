@@ -19,6 +19,10 @@ export const trpc = onRequest(
     concurrency: 400,
   },
   (req, res) => {
+    res.set('Access-Control-Allow-Origin', [
+      'localhost:3000',
+      'trpc-with-firebase-functions.vercel.app',
+    ]);
     const url = getSafleUrl(req);
 
     nodeHTTPRequestHandler({
